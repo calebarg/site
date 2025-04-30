@@ -1,4 +1,6 @@
-public/pages
-public/index.html
-zig-cache
-zig-out
+public/posts
+public/*.html
+public/media
+public/assets
+sitegen_linux_x86_64
+

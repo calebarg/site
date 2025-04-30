@@ -32,6 +32,10 @@ body {
     flex-flow: column;
 }
 
+ol {
+  list-style: none;
+}
+
 li,p {
    margin-top: 0.6em;
    margin-left: 1em;
@@ -161,6 +165,8 @@ hr {
 .bleah {
     margin: 1em 0em 1em 0em;
 }
+
+
 
 a {
     color: var(--link_blue);

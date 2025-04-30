@@ -1,0 +1,40 @@
+<h1>Calculator inside a compute shader using the Vulkan graphics API. -- 04/27/2025</h1>
+
+<p>This year I've been learning <a href="https://www.vulkan.org/">Vulkan</a> and since I'm a masochist, I'm doing it while building a game engine. About a year ago now, I participated in a jam. My team ended up building a Minecraft clone and placed pretty well. If I participated again this year, I wanted to have a good entry. I knew I would want to do something with Vulkan and I've written about 6 or so parsers in the last year or so. I landed on this calculator inside a compute shader idea. I didn't end up participating in the event this year. Mostly because I wasn't convinced that I could complete this project within the allotted 24 hours.</p>
+
+<p>One of the ways to write a calculator is very similar to how you would write a compiler/interpreter. The process involves scanning, parsing, and evaluation. This is exactly what the compute shader does.</p>
+
+<br>
+<p>vkcalc can be summarized as</p>
+<ol>
+  <li>1.) Initialize Vulkan.</li>
+  <li>2.) Set up memory such that we can get an input stream to the shader.</li>
+  <li>3.) Set up a Vulkan compute pipeline.</li>
+  <li>5.) Compute shader execution. Performing the scan, parse, and eval.</li>
+  <li>6.) Read the result from the compute shader.</li>
+</ol>
+<br>
+
+<p>I/O for the compute shader is an <a href="https://www.khronos.org/opengl/wiki/Shader_Storage_Buffer_Object">SSBO</a>. I shove the program input into this buffer (some expression, i.e., "1 + 1"). Output is written to a separate part of this same buffer at some offset. One of the things that I would like to fix is setting up a second SSBO for output to be written. Memory for tokens produced from the scan phase and ASTNodes from the parsing phase are all stack allocated. (Not great these should be SSBOs as well.)</p>
+
+<p>All of the parsers that I've done have been with a technique called <a href="https://en.wikipedia.org/wiki/Recursive_descent_parser">recursive descent</a>. A small challenge with using a shader is that they don't allow recursion. I ended up using a stack structure to parse without recursion. I also used a stack to do a post-order traversal on the result <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">AST</a> from the parse phase. In order to do an evaluation.
+
+<br>
+<p>There are several things I need to come back and fix, namely:</p>
+<ol>
+  <li>- No error handling</li>
+  <li>- Only integer arithmetic</li>
+  <li>- No grouping, i.e., 10 * (1 + 2)</li>
+  <li>- Linux only</li>
+</ol>
+<br>
+
+<p>This was a fun detour from working on my game engine. I was able to reuse a sizable amount of its Vulkan code. vkcalc source code is <a href="https://github.com/calebarg/vkcalc.git">HERE</a></p>
+
+<p>Resources:</p>
+<ol>
+  <li><a href="https://craftinginterpreters.com">https://craftinginterpreters.com</a></li>
+  <li><a href="https://vulkan-tutorial.com">https://vulkan-tutorial.com</a></li>
+</ol>
+
+
