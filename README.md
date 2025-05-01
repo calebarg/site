@@ -1,7 +1,3 @@
-#### NOTE(calebarg): This is just as much for you as it is for anyone else reading this.
-
-### Need zig 0.13.0 compiler.
-
 ### Steps
 
 - Add/modify html/css file(s)
